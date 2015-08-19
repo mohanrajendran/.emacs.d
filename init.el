@@ -10,7 +10,8 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-(setq package-list '(evil 
+(setq package-list '(company
+		     evil 
 		     helm
 		     magit
 		     markdown-mode 
@@ -20,22 +21,32 @@
   (unless (package-installed-p package)
     (package-install package)))
 
+;; Enable line numbering in all documents
+(global-linum-mode 1)
+
 ;; Ibuffer-mode (used to display open buffers as a list)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; Yasnippet mode (used to provide code snippets)
 (yas-global-mode 1)
 
-;; Markdown mode to work with yasnippet (try [tab] to perform
-;; yas-expand first fallback to the original behavior in this
-;; mode)
+;; Markdown mode
 (require 'markdown-mode)
+
+; To work with yasnippet (try [tab] to perform yas-expand first, if no expansion,
+; fallback to the original behavior of markdown-cycle)
 (add-hook 'markdown-mode-hook
 	  (let ((original-command (lookup-key markdown-mode-map [tab])))
 	    `(lambda ()
 	       (setq yas-fallback-behavior
 		     '(apply ,original-command))
 	       (local-set-key [tab] 'yas-expand))))
+
+; Start fly-check in markdown
+(add-hook 'markdown-mode-hook (lambda () (flyspell-mode 1)))
+
+;; Scheme mode used to run scheme
+(setq scheme-program-name "mit-scheme-x86-64")
 
 ;; Helm-mode (used to provide auto-complete)
 (require 'helm-config)
