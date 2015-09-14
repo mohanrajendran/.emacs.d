@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Submenu hook 
+# --
+- { hook: "Exercise ${1:Chapter}_${2:Question}", title: "Exercise $1.$2" }
+$0### Exercise $1.$2<a name="Exercise$1_$2">&nbsp;</a>

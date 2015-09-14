@@ -10,11 +10,14 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-(setq package-list '(company
-		     evil 
+(setq package-list '(cider
+		     company
+		     evil
+		     golden-ratio
 		     helm
 		     magit
-		     markdown-mode 
+		     markdown-mode
+		     paredit
 		     yasnippet))
 
 (dolist (package package-list)
@@ -29,6 +32,23 @@
 
 ;; Yasnippet mode (used to provide code snippets)
 (yas-global-mode 1)
+
+;; Parenthesis help
+; Paredit mode (generate matching parenthesis on the fly)
+(require 'paredit)
+(add-hook 'scheme-mode-hook (lambda () (paredit-mode 1)))
+
+; Show paren mode (highlight matching parenthesis)
+(show-paren-mode 1)
+(setq show-paren-delay 0)
+
+; Rainbow delimiters (color nested block delimiters with same color)
+(require 'rainbow-delimiters)
+(global-rainbow-delimiters-mode)
+
+;; Golden ratio mode for auto-resizing of multiple windows
+(require 'golden-ratio)
+(golden-ratio-mode 1)
 
 ;; Markdown mode
 (require 'markdown-mode)
@@ -55,6 +75,24 @@
 ;; Evil-mode (emulate vim in emacs)
 (require 'evil)
 (evil-mode 1)
+
+;; Org-mode (for taking notes)
+(require 'org)
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+
+;; Recentf-mode (used to find recently opened files)
+;; From https://www.masteringemacs.org/article/find-files-faster-recent-files-package
+;; modified to use helm instead of ido
+(require 'recentf)
+(global-set-key (kbd "C-x C-r") 'helm-recentf-open)
+(recentf-mode 1)
+(setq recentf-max-saved-items 50)
+(defun helm-recentf-open ()
+  "Use `helm-comp-read' to \\[find-file] a recent file"
+  (interactive)
+  (if (find-file (helm-comp-read "Find recent file: " recentf-list))
+      (message "Opening file...")
+    (message "Aborting")))
 
 ;; Disable extra stuff
 (menu-bar-mode 0)

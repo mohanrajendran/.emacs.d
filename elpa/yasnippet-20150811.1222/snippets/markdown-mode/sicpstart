@@ -1,0 +1,12 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Jekyll boilerplate for SICP
+# --
+---
+layout: post
+category: [SICP, Solutions]
+post_no: $1
+title: "SICP Section $2 Exercise Solution"
+submenu:
+---
+
+<!--excerpt-->
