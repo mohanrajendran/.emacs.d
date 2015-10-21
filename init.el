@@ -18,6 +18,7 @@
 		     magit
 		     markdown-mode
 		     paredit
+		     rainbow-delimiters
 		     yasnippet))
 
 (dolist (package package-list)
@@ -30,6 +31,9 @@
 ;; Ibuffer-mode (used to display open buffers as a list)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
+;; Company mode (used to provide auto-completion)
+(global-company-mode)
+
 ;; Yasnippet mode (used to provide code snippets)
 (yas-global-mode 1)
 
@@ -37,6 +41,7 @@
 ; Paredit mode (generate matching parenthesis on the fly)
 (require 'paredit)
 (add-hook 'scheme-mode-hook (lambda () (paredit-mode 1)))
+(add-hook 'emacs-lisp-mode-hook (lambda () (paredit-mode 1)))
 
 ; Show paren mode (highlight matching parenthesis)
 (show-paren-mode 1)
@@ -44,7 +49,9 @@
 
 ; Rainbow delimiters (color nested block delimiters with same color)
 (require 'rainbow-delimiters)
-(global-rainbow-delimiters-mode)
+(add-hook 'scheme-mode-hook (lambda () (rainbow-delimiters-mode 1)))
+(add-hook 'emacs-lisp-mode-hook (lambda () (rainbow-delimiters-mode 1)))
+;(global-rainbow-delimiters-mode)
 
 ;; Golden ratio mode for auto-resizing of multiple windows
 (require 'golden-ratio)
