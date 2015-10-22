@@ -2,8 +2,11 @@
 (require 'package)
 (push '("marmalade" . "http://marmalade-repo.org/packages/")
       package-archives)
+(push '("tromey" . "http://tromey.com/elpa")
+      package-archives)
 (push '("melpa" . "http://melpa.milkbox.net/packages/")
       package-archives)
+
 (package-initialize)
 
 ; init packages if not installed (useful in migration)
@@ -11,6 +14,8 @@
   (package-refresh-contents))
 
 (setq package-list '(cider
+		     clojure-mode
+                     clojure-mode-extra-font-locking
 		     company
 		     evil
 		     golden-ratio
@@ -18,12 +23,17 @@
 		     magit
 		     markdown-mode
 		     paredit
+		     projectile
 		     rainbow-delimiters
 		     yasnippet))
 
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
+
+;; Load languages
+(add-to-list 'load-path "~/.emacs.d/lang")
+(load "clojure-init.el")
 
 ;; Enable line numbering in all documents
 (global-linum-mode 1)
@@ -51,11 +61,16 @@
 (require 'rainbow-delimiters)
 (add-hook 'scheme-mode-hook (lambda () (rainbow-delimiters-mode 1)))
 (add-hook 'emacs-lisp-mode-hook (lambda () (rainbow-delimiters-mode 1)))
+(add-hook 'clojure-mode-hook (lambda () (rainbow-delimiters-mode 1)))
 ;(global-rainbow-delimiters-mode)
 
 ;; Golden ratio mode for auto-resizing of multiple windows
 (require 'golden-ratio)
 (golden-ratio-mode 1)
+
+;; Uniquify (used to prepend folder name to files with same names so as to differentiate them)
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
 
 ;; Markdown mode
 (require 'markdown-mode)
@@ -74,6 +89,9 @@
 
 ;; Scheme mode used to run scheme
 (setq scheme-program-name "mit-scheme-x86-64")
+
+;; Projectile mode (to manage projects)
+(projectile-global-mode)
 
 ;; Helm-mode (used to provide auto-complete)
 (require 'helm-config)
@@ -101,10 +119,24 @@
       (message "Opening file...")
     (message "Aborting")))
 
+;; Reconfigure search bindings to use regex search by default
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "C-M-s") 'isearch-forward)
+(global-set-key (kbd "C-M-r") 'isearch-backward)
+
+;; Use space instead of tabs
+(setq-default indent-tabs-mode nil)
+
+;; Saveplace (preserve the last location at each file)
+(require 'saveplace)
+(setq-default save-place t)
+
 ;; Disable extra stuff
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
+(setq inhibit-startup-message t)
 
 ;; Set default theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
