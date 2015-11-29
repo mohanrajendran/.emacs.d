@@ -5,8 +5,19 @@
 ;; Clojure
 ;;;;
 
-;; Enable paredit for Clojure
-(add-hook 'clojure-mode-hook 'enable-paredit-mode)
+(setq clojure-package-list '(cider
+                             clojure-mode
+                             clojure-mode-extra-font-locking
+                             paredit
+                             rainbow-delimiters))
+
+(install-packages clojure-package-list)
+
+;; Parentheses
+(require 'paredit)
+(require 'rainbow-delimiters)
+(add-hook 'clojure-mode-hook (lambda () (paredit-mode 1)))
+(add-hook 'clojure-mode-hook (lambda () (rainbow-delimiters-mode 1)))
 
 ;; This is useful for working with camel-case tokens, like names of
 ;; Java classes (e.g. JavaClassName)

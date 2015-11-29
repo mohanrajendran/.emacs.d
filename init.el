@@ -9,31 +9,37 @@
 
 (package-initialize)
 
-; init packages if not installed (useful in migration)
+;; Package installation
 (unless package-archive-contents
   (package-refresh-contents))
 
-(setq package-list '(cider
-		     clojure-mode
-                     clojure-mode-extra-font-locking
-		     company
-		     evil
-		     golden-ratio
-		     helm
-		     magit
-		     markdown-mode
-		     paredit
-		     projectile
-		     rainbow-delimiters
-		     yasnippet))
+(defun install-packages (packages-list)
+  (dolist (package packages-list)
+    (unless (package-installed-p package)
+      (package-install package))))
 
-(dolist (package package-list)
-  (unless (package-installed-p package)
-    (package-install package)))
+(setq core-package-list '(aggressive-indent
+                          company
+                          evil
+                          evil-numbers
+                          golden-ratio
+                          helm
+                          magit
+                          markdown-mode
+                          paredit
+                          projectile
+                          rainbow-delimiters
+                          yasnippet))
 
-;; Load languages
+(install-packages core-package-list)
+                     
+;; Load other stuff
+; Languages
 (add-to-list 'load-path "~/.emacs.d/lang")
 (load "clojure-init.el")
+
+; Other modes
+(load "org-init.el")
 
 ;; Enable line numbering in all documents
 (global-linum-mode 1)
@@ -47,7 +53,7 @@
 ;; Yasnippet mode (used to provide code snippets)
 (yas-global-mode 1)
 
-;; Parenthesis help
+;; Parenthesis
 ; Paredit mode (generate matching parenthesis on the fly)
 (require 'paredit)
 (add-hook 'scheme-mode-hook (lambda () (paredit-mode 1)))
@@ -61,7 +67,6 @@
 (require 'rainbow-delimiters)
 (add-hook 'scheme-mode-hook (lambda () (rainbow-delimiters-mode 1)))
 (add-hook 'emacs-lisp-mode-hook (lambda () (rainbow-delimiters-mode 1)))
-(add-hook 'clojure-mode-hook (lambda () (rainbow-delimiters-mode 1)))
 ;(global-rainbow-delimiters-mode)
 
 ;; Golden ratio mode for auto-resizing of multiple windows
@@ -97,13 +102,16 @@
 (require 'helm-config)
 (helm-mode 1)
 
+;; Magit-mode (git layer in emacs)
+(global-set-key (kbd "C-x g") 'magit-status)
+
 ;; Evil-mode (emulate vim in emacs)
 (require 'evil)
 (evil-mode 1)
 
-;; Org-mode (for taking notes)
-(require 'org)
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(require 'evil-numbers)
+(global-set-key (kbd "C-c +") 'evil-numbers/inc-at-pt)
+(global-set-key (kbd "C-c -") 'evil-numbers/dec-at-pt)
 
 ;; Recentf-mode (used to find recently opened files)
 ;; From https://www.masteringemacs.org/article/find-files-faster-recent-files-package
@@ -149,6 +157,4 @@
 ;; Set default font
 (set-face-attribute 'default nil
 		    :family "Source Code Pro"
-		    :height 90
-		    :weight 'normal
-		    :width 'normal)
+		    :height 90)
