@@ -22,6 +22,7 @@
                           company
                           evil
                           evil-numbers
+                          flycheck
                           golden-ratio
                           helm
                           magit
@@ -37,6 +38,7 @@
 ; Languages
 (add-to-list 'load-path "~/.emacs.d/lang")
 (load "clojure-init.el")
+(load "rust-init.el")
 
 ; Other modes
 (load "org-init.el")
@@ -46,6 +48,9 @@
 
 ;; Ibuffer-mode (used to display open buffers as a list)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+
+;; Flycheck mode (used to provide syntax checking)
+(global-flycheck-mode)
 
 ;; Company mode (used to provide auto-completion)
 (global-company-mode)
@@ -135,6 +140,9 @@
 
 ;; Use space instead of tabs
 (setq-default indent-tabs-mode nil)
+
+;; Auto-indentation
+(global-set-key (kbd "RET") 'newline-and-indent)
 
 ;; Saveplace (preserve the last location at each file)
 (require 'saveplace)
