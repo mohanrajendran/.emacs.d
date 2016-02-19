@@ -18,4 +18,4 @@
       '(("TODO" . org-warning)
         ("STARTED" . "yellow")
         ("DONE" . "green")))
-
+(setq org-log-done 'time)

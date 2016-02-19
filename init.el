@@ -30,6 +30,7 @@
                           paredit
                           projectile
                           rainbow-delimiters
+                          window-numbering
                           yasnippet))
 
 (install-packages core-package-list)
@@ -39,6 +40,7 @@
 (add-to-list 'load-path "~/.emacs.d/lang")
 (load "clojure-init.el")
 (load "rust-init.el")
+(load "c-c++-init.el")
 
 ; Other modes
 (load "org-init.el")
@@ -77,6 +79,19 @@
 ;; Golden ratio mode for auto-resizing of multiple windows
 (require 'golden-ratio)
 (golden-ratio-mode 1)
+; Refresh window sizes after these functions are called
+(setq golden-ratio-extra-commands
+      (append golden-ratio-extra-commands
+              '(select-window-0
+                select-window-1
+                select-window-2
+                select-window-3
+                select-window-4
+                select-window-5
+                select-window-6
+                select-window-7
+                select-window-8
+                select-window-9)))
 
 ;; Uniquify (used to prepend folder name to files with same names so as to differentiate them)
 (require 'uniquify)
@@ -106,6 +121,9 @@
 ;; Helm-mode (used to provide auto-complete)
 (require 'helm-config)
 (helm-mode 1)
+; New change removes automatic helm for find-file and execute-extended-command. Add it back.
+(assq-delete-all 'find-file helm-completing-read-handlers-alist)
+(assq-delete-all 'execute-extended-command helm-completing-read-handlers-alist)
 
 ;; Magit-mode (git layer in emacs)
 (global-set-key (kbd "C-x g") 'magit-status)
@@ -147,6 +165,11 @@
 ;; Saveplace (preserve the last location at each file)
 (require 'saveplace)
 (setq-default save-place t)
+
+;; Window numbering
+(require 'window-numbering)
+(window-numbering-mode 1) 
+(custom-set-faces '(window-numbering-face ((t (:foreground "DeepPink" :underline "DeepPink" :weight bold)))))
 
 ;; Disable extra stuff
 (menu-bar-mode 0)
