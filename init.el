@@ -9,6 +9,7 @@
 
 (package-initialize)
 
+
 ;; Package installation
 (unless package-archive-contents
   (package-refresh-contents))
@@ -45,20 +46,26 @@
 ; Other modes
 (load "org-init.el")
 
+
 ;; Enable line numbering in all documents
 (global-linum-mode 1)
+
 
 ;; Ibuffer-mode (used to display open buffers as a list)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
+
 ;; Flycheck mode (used to provide syntax checking)
 (global-flycheck-mode)
+
 
 ;; Company mode (used to provide auto-completion)
 (global-company-mode)
 
+
 ;; Yasnippet mode (used to provide code snippets)
 (yas-global-mode 1)
+
 
 ;; Parenthesis
 ; Paredit mode (generate matching parenthesis on the fly)
@@ -74,7 +81,7 @@
 (require 'rainbow-delimiters)
 (add-hook 'scheme-mode-hook (lambda () (rainbow-delimiters-mode 1)))
 (add-hook 'emacs-lisp-mode-hook (lambda () (rainbow-delimiters-mode 1)))
-;(global-rainbow-delimiters-mode)
+
 
 ;; Golden ratio mode for auto-resizing of multiple windows
 (require 'golden-ratio)
@@ -93,9 +100,11 @@
                 select-window-8
                 select-window-9)))
 
+
 ;; Uniquify (used to prepend folder name to files with same names so as to differentiate them)
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
+
 
 ;; Markdown mode
 (require 'markdown-mode)
@@ -112,11 +121,14 @@
 ; Start fly-check in markdown
 (add-hook 'markdown-mode-hook (lambda () (flyspell-mode 1)))
 
+
 ;; Scheme mode used to run scheme
 (setq scheme-program-name "mit-scheme-x86-64")
 
+
 ;; Projectile mode (to manage projects)
 (projectile-global-mode)
+
 
 ;; Helm-mode (used to provide auto-complete)
 (require 'helm-config)
@@ -125,8 +137,10 @@
 (assq-delete-all 'find-file helm-completing-read-handlers-alist)
 (assq-delete-all 'execute-extended-command helm-completing-read-handlers-alist)
 
+
 ;; Magit-mode (git layer in emacs)
 (global-set-key (kbd "C-x g") 'magit-status)
+
 
 ;; Evil-mode (emulate vim in emacs)
 (require 'evil)
@@ -135,6 +149,7 @@
 (require 'evil-numbers)
 (global-set-key (kbd "C-c +") 'evil-numbers/inc-at-pt)
 (global-set-key (kbd "C-c -") 'evil-numbers/dec-at-pt)
+
 
 ;; Recentf-mode (used to find recently opened files)
 ;; From https://www.masteringemacs.org/article/find-files-faster-recent-files-package
@@ -150,32 +165,39 @@
       (message "Opening file...")
     (message "Aborting")))
 
+
 ;; Reconfigure search bindings to use regex search by default
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "C-M-s") 'isearch-forward)
 (global-set-key (kbd "C-M-r") 'isearch-backward)
 
+
 ;; Use space instead of tabs
 (setq-default indent-tabs-mode nil)
+
 
 ;; Auto-indentation
 (global-set-key (kbd "RET") 'newline-and-indent)
 
+
 ;; Saveplace (preserve the last location at each file)
 (require 'saveplace)
 (setq-default save-place t)
+
 
 ;; Window numbering
 (require 'window-numbering)
 (window-numbering-mode 1) 
 (custom-set-faces '(window-numbering-face ((t (:foreground "DeepPink" :underline "DeepPink" :weight bold)))))
 
+
 ;; Disable extra stuff
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 (setq inhibit-startup-message t)
+
 
 ;; Set default theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
@@ -185,7 +207,8 @@
 (require 'nyan-mode)
 (nyan-mode 1)
 
+
 ;; Set default font
 (set-face-attribute 'default nil
-		    :family "Source Code Pro"
-		    :height 90)
+		    :family "Inconsolata"
+		    :height 100)
