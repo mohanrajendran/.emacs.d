@@ -42,6 +42,7 @@
 (load "clojure-init.el")
 (load "rust-init.el")
 (load "c-c++-init.el")
+(load "js-init.el")
 
 ; Other modes
 (load "org-init.el")
