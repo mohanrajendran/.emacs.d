@@ -1,10 +1,8 @@
-;; Package initialize
+;;; Package initialize
 (require 'package)
-(push '("marmalade" . "http://marmalade-repo.org/packages/")
+(push '("marmalade" . "https://marmalade-repo.org/packages/")
       package-archives)
-(push '("tromey" . "http://tromey.com/elpa")
-      package-archives)
-(push '("melpa" . "http://melpa.milkbox.net/packages/")
+(push '("melpa" . "https://melpa.org/packages/")
       package-archives)
 
 (package-initialize)
@@ -15,24 +13,26 @@
   (package-refresh-contents))
 
 (defun install-packages (packages-list)
+  "Go through PACKAGES-LIST and install them if not installed."
   (dolist (package packages-list)
     (unless (package-installed-p package)
       (package-install package))))
 
-(setq core-package-list '(aggressive-indent
-                          company
-                          evil
-                          evil-numbers
-                          flycheck
-                          golden-ratio
-                          helm
-                          magit
-                          markdown-mode
-                          paredit
-                          projectile
-                          rainbow-delimiters
-                          window-numbering
-                          yasnippet))
+(defvar core-package-list '(aggressive-indent
+                            company
+                            evil
+                            evil-numbers
+                            flycheck
+                            golden-ratio
+                            helm
+                            helm-projectile
+                            magit
+                            markdown-mode
+                            paredit
+                            projectile
+                            rainbow-delimiters
+                            window-numbering
+                            yasnippet))
 
 (install-packages core-package-list)
                      
@@ -43,6 +43,7 @@
 (load "rust-init.el")
 (load "c-c++-init.el")
 (load "js-init.el")
+(load "elm-init.el")
 
 ; Other modes
 (load "org-init.el")
@@ -58,6 +59,7 @@
 
 ;; Flycheck mode (used to provide syntax checking)
 (global-flycheck-mode)
+(setq-default flycheck-emacs-lisp-load-path 'inherit)
 
 
 ;; Company mode (used to provide auto-completion)
@@ -76,7 +78,7 @@
 
 ; Show paren mode (highlight matching parenthesis)
 (show-paren-mode 1)
-(setq show-paren-delay 0)
+(setq-default show-paren-delay 0)
 
 ; Rainbow delimiters (color nested block delimiters with same color)
 (require 'rainbow-delimiters)
@@ -124,11 +126,14 @@
 
 
 ;; Scheme mode used to run scheme
-(setq scheme-program-name "mit-scheme-x86-64")
+(setq-default scheme-program-name "mit-scheme-x86-64")
 
 
 ;; Projectile mode (to manage projects)
 (projectile-global-mode)
+; Integrate with Helm
+(require 'helm-projectile)
+(helm-projectile-on)
 
 
 ;; Helm-mode (used to provide auto-complete)
@@ -160,7 +165,7 @@
 (recentf-mode 1)
 (setq recentf-max-saved-items 50)
 (defun helm-recentf-open ()
-  "Use `helm-comp-read' to \\[find-file] a recent file"
+  "Use `helm-comp-read' to \\[find-file] a recent file."
   (interactive)
   (if (find-file (helm-comp-read "Find recent file: " recentf-list))
       (message "Opening file...")
@@ -189,8 +194,13 @@
 
 ;; Window numbering
 (require 'window-numbering)
-(window-numbering-mode 1) 
-(custom-set-faces '(window-numbering-face ((t (:foreground "DeepPink" :underline "DeepPink" :weight bold)))))
+(window-numbering-mode 1)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(window-numbering-face ((t (:foreground "DeepPink" :underline "DeepPink" :weight bold))) t))
 
 
 ;; Disable extra stuff
@@ -211,5 +221,17 @@
 
 ;; Set default font
 (set-face-attribute 'default nil
-		    :family "Inconsolata"
-		    :height 100)
+		    :family "DejaVu Sans Mono"
+		    :height 90)
+
+
+(provide 'init)
+;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (flycheck-elm elm-mode yasnippet window-numbering web-beautify toml-mode rainbow-delimiters racer paredit org-trello org-pomodoro markdown-mode magit json-mode js2-mode helm-projectile golden-ratio flycheck-rust evil-org evil-numbers company-tern company-racer company-c-headers clojure-mode-extra-font-locking clang-format cider cargo aggressive-indent))))

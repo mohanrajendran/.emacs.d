@@ -4,12 +4,13 @@
 ;; Rust
 ;;;;
 
-(setq rust-packages-list '(company-racer
-                           cargo
-                           racer
-                           flycheck-rust
-                           rust-mode
-                           toml-mode))
+;;; CODE:
+(defvar rust-packages-list '(company-racer
+                             cargo
+                             racer
+                             flycheck-rust
+                             rust-mode
+                             toml-mode))
 
 (install-packages rust-packages-list)
 
@@ -34,3 +35,5 @@
 ;; Cargo mode (used to manage Rust projects)
 (add-hook 'rust-mode-hook 'cargo-minor-mode)
 (add-hook 'toml-mode-hook 'cargo-minor-mode)
+
+(provide 'rust-init)

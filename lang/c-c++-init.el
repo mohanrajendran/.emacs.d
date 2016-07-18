@@ -8,4 +8,6 @@
 
 (install-packages c-c++-packages-list)
 
-;;; CC mode for C/C++ files
+(provide 'c-c++-init)
+
+;;; c-c++-init.el ends here
