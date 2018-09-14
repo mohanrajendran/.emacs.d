@@ -25,12 +25,12 @@
 ;; TODO workflow
 ; keywords
 (setq org-todo-keywords
-      '((sequence "TODO" "STARTED" "|" "DONE")))
+      '((sequence "TODO(t)" "STARTED(s)" "|" "DONE(d)")))
 ; faces
 (setq org-todo-keyword-faces
-      '(("TODO" . org-warning)
-        ("STARTED" . "yellow")
-        ("DONE" . "green")))
+      '(("TODO" :foreground "red" :weight bold)
+        ("STARTED" :foreground "blue" :weight bold)
+        ("DONE" :foreground "forest green" :weight bold)))
 (setq org-log-done 'time)
 
 

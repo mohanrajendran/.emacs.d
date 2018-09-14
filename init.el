@@ -63,7 +63,7 @@
 
 
 ;; Company mode (used to provide auto-completion)
-(global-company-mode)
+;; (global-company-mode)
 
 
 ;; Yasnippet mode (used to provide code snippets)
@@ -221,8 +221,8 @@
 
 ;; Set default font
 (set-face-attribute 'default nil
-		    :family "DejaVu Sans Mono"
-		    :height 90)
+		    :family "Fira Code"
+		    :height 120)
 
 
 (provide 'init)
@@ -232,6 +232,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-trello-current-prefix-keybinding "C-c o")
  '(package-selected-packages
    (quote
     (flycheck-elm elm-mode yasnippet window-numbering web-beautify toml-mode rainbow-delimiters racer paredit org-trello org-pomodoro markdown-mode magit json-mode js2-mode helm-projectile golden-ratio flycheck-rust evil-org evil-numbers company-tern company-racer company-c-headers clojure-mode-extra-font-locking clang-format cider cargo aggressive-indent))))
